@@ -9,3 +9,4 @@ if __name__ == "__main__":
     print(get_users())
     print(get_currencies())
     print(get_user_has_currencies())
+    print(get_user_has_currencies_raw())
