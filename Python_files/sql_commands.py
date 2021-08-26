@@ -2,6 +2,7 @@ from mysql.connector import connect, Error
 from config import SQL_USER, SQL_PASS
 from collections import defaultdict
 
+
 def set_connection_decorator(f):
     def set_connection_wrapper(*args, **kwargs):
         try:
@@ -19,7 +20,7 @@ def set_connection_decorator(f):
 
 
 @set_connection_decorator
-def add_new_user(user_id, connection):
+def sql_add_new_user(user_id, connection):
     add_user_query = f'''
         INSERT INTO Users
         (idUser)
@@ -31,7 +32,7 @@ def add_new_user(user_id, connection):
 
 
 @set_connection_decorator
-def get_data_from_table(table, connection):
+def sql_get_data_from_table(table, connection):
     get_users_query = f'''
         SELECT * FROM {table};
         '''
@@ -40,26 +41,26 @@ def get_data_from_table(table, connection):
         return cursor.fetchall()
 
 
-def get_users():
-    data = [i[0] for i in get_data_from_table('Users')]
+def sql_get_users():
+    data = [i[0] for i in sql_get_data_from_table('Users')]
     return data
 
 
-def get_currencies():
+def sql_get_currencies():
     """returns dictionary with pairs CryptoSymbol: Value"""
-    data = {i[0]: i[1] for i in get_data_from_table('Currencies')}
+    data = {i[0]: i[1] for i in sql_get_data_from_table('Currencies')}
     return data
 
 
-def get_user_has_currencies_raw():
+def sql_get_user_has_currencies_raw():
     """returns list of pairs(tuples) of UserId: CryptoCurrency"""
-    data = get_data_from_table('User_has_Currencies')
+    data = sql_get_data_from_table('User_has_Currencies')
     return data
 
 
-def get_user_has_currencies():
+def sql_get_user_has_currencies():
     """returns dictionary with pairs UserID: CryptoCurrencies"""
-    data = get_data_from_table('User_has_Currencies')
+    data = sql_get_data_from_table('User_has_Currencies')
     new_data = defaultdict(set)
     for user_id, symbol in data:
         new_data[user_id].add(symbol)
