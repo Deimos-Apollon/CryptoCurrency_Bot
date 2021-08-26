@@ -3,7 +3,7 @@ from config import SQL_USER, SQL_PASS
 from collections import defaultdict
 
 
-def set_connection_decorator(f):
+def _set_connection_decorator(f):
     def set_connection_wrapper(*args, **kwargs):
         try:
             with connect(
@@ -19,7 +19,7 @@ def set_connection_decorator(f):
     return set_connection_wrapper
 
 
-@set_connection_decorator
+@_set_connection_decorator
 def sql_add_new_user(user_id, connection):
     add_user_query = f'''
         INSERT INTO Users
@@ -31,7 +31,7 @@ def sql_add_new_user(user_id, connection):
     connection.commit()
 
 
-@set_connection_decorator
+@_set_connection_decorator
 def sql_get_data_from_table(table, connection):
     get_users_query = f'''
         SELECT * FROM {table};
