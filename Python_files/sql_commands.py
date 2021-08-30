@@ -12,7 +12,6 @@ def _set_connection_decorator(f):
                     password=SQL_PASS,
                     database='CryptoIgor'
             ) as connection:
-                print('decor works')
                 return f(*args, **kwargs, connection=connection)
         except Error as e:
             print(f'Error setting connection calling {f.__name__}: {e}')
