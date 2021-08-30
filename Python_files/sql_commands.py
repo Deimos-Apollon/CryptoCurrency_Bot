@@ -31,6 +31,29 @@ def sql_add_new_user(user_id, connection):
 
 
 @_set_connection_decorator
+def sql_add_user_has_currencies(user_id, currency, connection):
+    add_user_query = fr'''
+            INSERT INTO Users_has_Currencies
+            VALUES ({user_id}, '{currency}')
+            '''
+    with connection.cursor() as cursor:
+        cursor.execute(add_user_query)
+    connection.commit()
+
+
+@_set_connection_decorator
+def sql_add_new_currency(symbol, connection):
+    add_user_query = fr'''
+        INSERT INTO Currencies
+        VALUES ('{symbol}', 0)
+        '''
+    print(add_user_query)
+    with connection.cursor() as cursor:
+        cursor.execute(add_user_query)
+    connection.commit()
+
+
+@_set_connection_decorator
 def sql_get_data_from_table(table, connection):
     get_users_query = f'''
         SELECT * FROM {table};
@@ -53,18 +76,16 @@ def sql_get_currencies():
 
 def sql_get_user_has_currencies_raw():
     """returns list of pairs(tuples) of UserId: CryptoCurrency"""
-    data = sql_get_data_from_table('User_has_Currencies')
+    data = sql_get_data_from_table('Users_has_Currencies')
     return data
 
 
 def sql_get_user_has_currencies():
     """returns dictionary with pairs UserID: CryptoCurrencies"""
-    data = sql_get_data_from_table('User_has_Currencies')
+    data = sql_get_data_from_table('Users_has_Currencies')
     new_data = defaultdict(set)
+    if data is None:
+        return None
     for user_id, symbol in data:
         new_data[user_id].add(symbol)
     return new_data
-
-
-def sql_add_user_has_currencies():
-    pass

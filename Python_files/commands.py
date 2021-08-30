@@ -10,6 +10,8 @@ def add_user(user_id, vk, users):
             message='Добро пожаловать!',
             random_id=0)
     else:
+        sql_add_new_user(user_id)
+        users.append(user_id)
         vk.messages.send(
             user_id=user_id,
             message='Ошибка :(',

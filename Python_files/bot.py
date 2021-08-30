@@ -23,5 +23,7 @@ def bot_start():
     longpoll = VkBotLongPoll(vk_session, group_id=GROUP_ID)
     vk = vk_session.get_api()
     users = sql_get_users()
+    print(users)
     currencies = sql_get_currencies()
-    bot_listen(longpoll, vk, users, currencies)
+    users_has_currencies = sql_get_user_has_currencies()
+    bot_listen(longpoll, vk, users, currencies, users_has_currencies)
