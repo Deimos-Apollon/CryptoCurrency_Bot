@@ -65,3 +65,7 @@ def sql_get_user_has_currencies():
     for user_id, symbol in data:
         new_data[user_id].add(symbol)
     return new_data
+
+
+def sql_add_user_has_currencies():
+    pass

@@ -10,8 +10,11 @@ from sql_commands import *
 def bot_listen(longpoll, vk, users, currencies):
     for event in longpoll.listen():
         if event.type == VkEventType.message_new:
-            if event.text == r'\start':
-                add_user(event.from_id)
+            text = list(event.text.split())
+            if text[0] == 'start':
+                add_user(event.from_id, vk, users)
+            elif text[0] == 'add':
+                pass
 
 
 def bot_start():
