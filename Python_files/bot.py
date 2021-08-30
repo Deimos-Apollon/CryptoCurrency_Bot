@@ -7,15 +7,15 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from sql_commands import *
 
 
-def bot_listen(longpoll, vk, users, currencies):
+def bot_listen(longpoll, vk, users, currencies, users_has_currencies):
     for event in longpoll.listen():
         if event.type == VkBotEventType.MESSAGE_NEW:
             text = event.object['message']['text'].split()
             print(text, text[0])
             if text[0] == 'start':
-                add_user(event.object['message']['from_id'], vk, users)
+                add_user(event.object['message']['from_id'], vk, users, users_has_currencies)
             elif text[0] == 'add':
-                pass
+                add_currency_to_user(text[1], event.object['message']['from_id'], currencies, users_has_currencies)
 
 
 def bot_start():
